@@ -1,0 +1,50 @@
+.menu-bars__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    left: 0;
+    width:100%;
+    height: 100vh;
+    z-index: 6;
+    background-color: var(--main-color);
+}
+
+.menu-bars__container.invisible {
+    display: none;
+}
+
+.menu-bars {
+    width:90%;
+    color: white;
+}
+
+.menu-bars a {
+    color: white;
+    text-decoration: none;
+}
+
+.menu-bars__btn__close {
+    color: white;
+    position: absolute;
+    top:25px;
+    right:25px;
+    cursor: pointer;
+}
+
+.menu-bar {
+    text-align: center;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    font-size: 18px;
+    cursor:pointer;
+}
+
+.menu-bar a {
+    color: white;
+    text-decoration: none;
+}
+
+.menu-bar span {
+    position: relative;
+}

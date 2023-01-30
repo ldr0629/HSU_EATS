@@ -1,0 +1,39 @@
+.top-bars {
+    display: fixed;
+    width:100%;
+    background-color: var(--body-color);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    padding: 20px 20px 10px;
+    z-index: 5;
+    left: 0;
+}
+
+.top-bars__title {
+    width: 50%;
+    display: flex;
+    align-items: center;
+}
+
+.top-bars__menus {
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.top-bars__menus span {
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+.title-logo {
+    font-family: "Black Han Sans", sans-serif;
+    font-size: 27px;
+    font-weight: bold;
+}
+
+.title-logo a {
+    color : var(--main-color);
+    text-decoration: none;
+}

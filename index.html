@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./css/styles.css">
+    <!--페이지 탭 설명-->
+    <title>HSU EATS</title>
+    <meta name="description" content="한신대학교 주변 식당 찾아보기">
+    <link rel="shortcut icon" href="images/logo/favicon-96x96.png">
+    <meta name="naver-site-verification" content="0d3ce23029926376892b30f7482b37563f570b67" />
+    
+    <!--카카오톡 소셜미디어-->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="eatHSU">
+    <meta property="og:description" content="한신대학교 주변 식당 찾아보기">
+    <meta property="og:image" content="images/logo.png">
+    <meta property="og:url" content="http://">
+
+    <!--지도 API, 폰트-->
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=xlh37yoksw&submodules=geocoder"></script>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps-geocoder.js"></script>
+    <script src="https://kit.fontawesome.com/b7f69e0a07.js" crossorigin="anonymous"></script>
+    <!--JQuery 사용-->
+    <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+    
+
+</head>
+<body>
+    <!-- 네이버 지도 API 전용 MAP-->
+    <div id="map-container" class="invisible">
+        <div id="map-quit">x</div>
+        <div id="map-box">
+            <div id="map"></div>
+        </div>
+    </div>
+
+    <div class="wrapper">
+        <!-- 상단 바 -->
+        <header class="top-bars">
+            <span class="top-bars__title title-logo"> 
+                <a href="index.html"><img src="images/logo.png" id="logo-img"></a>
+            </span>
+            <nav class="top-bars__menus">
+                <span class="top-bars__menu"><i class="fa-solid fa-bars fa-lg"></i></span>
+            </nav>
+        </header>
+
+        <!-- 상단 바(메뉴 버튼 눌렀을 때)-->
+        <nav class="menu-bars__container invisible">
+            <span class="menu-bars__btn__close"><i class="fa-solid fa-x fa-lg"></i></span>
+            <ul class="menu-bars">
+                <a href="index.html"><li class="menu-bar"><span>맛집 리스트</span></li></a>
+                <a href="notice.html"><li class="menu-bar"><span>문의</span></li></a>
+            </ul>
+        </nav> 
+
+        <main class="main-box">
+            <!-- 상단 소개글 -->
+            <div class="intro">
+                <h1 class="intro__title">오늘 뭐 먹지?</h1>
+                <h2 class="intro__sub">한신대학교 인근 맛집들을 소개합니다.</h2>
+            </div>
+
+            <!-- 태그 필터 -->
+            <div class="tag-filters">
+                <div class="tag-filter">
+                    <h3 class="tag-filter__title">음식 종류</h3>
+                    <div class="tag-filter__tags">
+                        <span class="tag-filter__tag" data-filter="*">전체</span>
+                        <span class="tag-filter__tag" data-filter="한식">한식</span>
+                        <span class="tag-filter__tag" data-filter="중식">중식</span>
+                        <span class="tag-filter__tag" data-filter="양식">양식</span>
+                        <span class="tag-filter__tag" data-filter="일식">일식</span>
+                        <span class="tag-filter__tag" data-filter="분식">분식</span>
+                        <span class="tag-filter__tag" data-filter="카페">카페</span>
+                        <span class="tag-filter__tag" data-filter="기타">기타</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 음식 종류 리스트 -->
+            <div class="restaurant-lists">
+                <div class="restaurant-list" address="양산동 444-1" data-type="한식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#한식</span>
+                        <span class="restaurant-list__tag">#후문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://ldb-phinf.pstatic.net/20150831_148/1441002056968AMYGI_JPEG/13172541_0.jpg
+                        " alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">진현가든</span>
+                        <span class="restaurant-list__textBox__sub">오산 삼겹살 & 생선구이 맛집</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 441" data-type="한식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#한식</span>
+                        <span class="restaurant-list__tag">#후문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjExMjdfMjMw%2FMDAxNjY5NTE4MzI4NDIx.-UCb-daqlVh1LpY-uzIskpg4KMzNUDGb0M1wSdHlgkkg.M01L1E6vZVdJS7pHehcl4zw5QhQc3WxpHnB-dOsjh00g.JPEG.garden_park0%2F1669518328068.jpg" alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">장금이네 순대국</span>
+                        <span class="restaurant-list__textBox__sub">추운날 따끈하게 한 그릇 하기 좋은 순대국 맛집</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 440" data-type="한식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#한식</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMDAyMjVfMjQ5%2FMDAxNTgyNjQxMjQwMTY2.q1cdUD_Nz0ti39Bsx8bLoKUax-ljsbnL4ChA510yKZ0g.ssDCZWoPQ0wA_gMHFsbi1Os6JWekMGrIy7IxLihIPMsg.JPEG.ksy55179%2F1582641239717.jpg
+                        " alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">봉구스 밥버거</span>
+                        <span class="restaurant-list__textBox__sub">혼밥하기 좋은 가성비 맛집</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 438-7" data-type="양식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#양식</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://img.danawa.com/prod_img/500000/147/727/img/5727147_1.jpg?shrink=330:330&_v=20200212114644" alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">맘스터치</span>
+                        <span class="restaurant-list__textBox__sub">한신대 앞 패스트푸드 맛집</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 437" data-type="양식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#양식</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://naverbooking-phinf.pstatic.net/20211007_102/16335740287298Gvec_JPEG/image.jpg" alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">이삭토스트</span>
+                        <span class="restaurant-list__textBox__sub">간단하게 끼니를 해결하고 싶을 땐? 이삭토스트</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 420" data-type="중식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#중식</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://pup-review-phinf.pstatic.net/MjAyMjA4MzBfMjgy/MDAxNjYxODY3MTE5NTY2.dDigOc1NuTV5KEe66Aa7CFkrAfo2I0vtUm771n-AFZ0g.ijs8wjoPqIqDkf9m78uL0YEeL8V2KVgkWaI6o2PMb2og.JPEG/20220830_181623.jpg" alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">우리반점</span>
+                        <span class="restaurant-list__textBox__sub">저렴한 가격과 푸짐한 양, 간짜장이 맛있는 우리반점</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 399" data-type="분식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#분식</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTA4MDJfMjAz%2FMDAxNjI3ODg4MjIyMzg0.9TZtKUNBO4Vn_56c9ctU7cH_DSNOLDMukVDG5_cFiGAg.NhxST3DSlsdIxFdQfLlwGwSqVy8DxaKTIeRIyZzma4Qg.JPEG.jhyoung0127%2FIMG_5177.jpg" alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">태라로제떡볶이 & 닭강정</span>
+                        <span class="restaurant-list__textBox__sub">가성비 좋은 이태리 양산떡볶이와 닭강정</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 399" data-type="기타">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#기타</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fcafefiles.naver.net%2F20160421_285%2Fgalaxyhemin_1461212610992oGlKJ_JPEG%2FpsbHG9BP4Y6.jpg" alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">Go치불</span>
+                        <span class="restaurant-list__textBox__sub">맥주가 땡길땐 치불 전문점</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 399" data-type="한식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#한식</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjExMTVfMTQ5%2FMDAxNjY4NTAyNDgwNDQz.4nfgwGFSPOfbY-WsNC6vRWEKWqTmCnab1_1fTXG1KEQg.7orkZ2tIJ_L5z3adYTtBxyFkA6wDvfWe5jIwLOWxfOEg.JPEG.mj76two39%2F20221114%25A3%25DF113702.jpg" alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">찌개동아리</span>
+                        <span class="restaurant-list__textBox__sub">푸짐한 인심으로 끼니를 해결할 수 있는 한신대 찌개, 전골 맛집</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 398-6" data-type="한식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#한식</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://pup-review-phinf.pstatic.net/MjAyMjEyMDNfODEg/MDAxNjcwMDM5ODUxMzA4.dtHkAsE2IvuxBJUdoP-hZTUw7rwpk2mqnaRxPvWohwYg.9cqSJYSw4f0tztV5lWWKPw0DZWpyF6-o2RyAIHyqXIIg.JPEG/4501C065-1B7D-4EF8-9413-F56FB5402FDD.jpeg" alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">해우리</span>
+                        <span class="restaurant-list__textBox__sub">한신대 상가거리 가성비 TOP3 맛집. 백반이나 술이 땡길땐 해우리</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 398-6" data-type="한식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#한식</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNzA2MjVfMTY1%2FMDAxNDk4MzI5NjY1Njgx.rbCszO037Uh1eN3iXkhbm257wtqyZnCKtyL7JeBtRe8g.u0e6XFi6JngyGVqevm20kZ44F7J5iRzRh9CgtYHhJ7og.JPEG.kjh7448%2F20170620_105111.jpg" alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">제일식당</span>
+                        <span class="restaurant-list__textBox__sub">점심으로 먹기 좋은 한식당</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 388" data-type="카페">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#카페</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTA3MDZfMjY5%2FMDAxNjI1NTQ2NTI2ODEz.TGx57Kn7TJxYHSnVWz_E7dzEp80HbgxImTGAEnEqxWUg.p7pG56BZd5Lr5NTE6SReSCdwlYyWDsB-sVFGBs8s-1kg.JPEG.jhyoung0127%2F132.jpg
+                        " alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">복고다방</span>
+                        <span class="restaurant-list__textBox__sub">가성비 좋고 맛좋은 카페</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 386" data-type="분식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#분식</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjEyMTlfMjA3%2FMDAxNjcxMzc1NzkzMzk4.HvyIbTT4VZ5Vwp62mevwgoQ9heXFcuvxenLv26LG5ogg.hHn6fVmtr1yamJvuw_BQ8Lz14xOAETiRLBoivhLmbgwg.JPEG.jooojw%2FKakaoTalk_20221218_231010440_20.jpg
+                        " alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">미소김밥</span>
+                        <span class="restaurant-list__textBox__sub">다양한 분식 메뉴를 저렴한 가격에 푸짐하게 즐길 수 있는 미소김밥</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 382-8" data-type="양식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#양식</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjEyMTRfMTUz%2FMDAxNjcwOTU5NjE2NTQz.8BrcfoCYkx2P8sACMOLRnaXeG3C4RTbvontFnhR9vhcg.Fkt8wJGUmP6hHJC0xOf9qEvWcMI6tNwV4bIpkvUXa78g.JPEG.yyk3108%2F20221213%25A3%25DF195703.jpg
+                        " alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">코리엔탈깻잎두마리치킨</span>
+                        <span class="restaurant-list__textBox__sub">넉넉하고 다양한 메뉴가 구성되어 있는 순살치킨 맛집</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 382-8" data-type="기타">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#기타</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA5MjhfMTc0%2FMDAxNjY0Mjk2MjExNjMy.C-8gfhj1wEmWlvZh6KaJUOGfjxdJS353-P_CrJgMHbQg.1SpnCosuFupuVTelaKL_iTlcDWBiPhP9SrsLQTrOk0Mg.JPEG.ok980420%2FIMG_9618.jpg
+                        " alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">드렁큰할매</span>
+                        <span class="restaurant-list__textBox__sub">점심에는 식사, 저녁엔 호프</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 382-7" data-type="분식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#분식</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTA1MjFfMTcz%2FMDAxNjIxNTMwNTA1OTQ4.nVKrnCxkPkn3PZ9zluE344bAB_hS3Vvj4audWq6_lYEg.3OU4VeVYhTfIQrMyfaDxs_EzUOt1a_ZlZg46VLuisAsg.JPEG.201jjjcde%2F1621530504837.jpg
+                        " alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">배떡</span>
+                        <span class="restaurant-list__textBox__sub">가성비 분식 맛집 배떡</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 382-3" data-type="카페">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#카페</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://pup-review-phinf.pstatic.net/MjAyMzAxMjJfMjM3/MDAxNjc0Mzk0Mzc0MjEw.HpCNBJiHH0Bmm1xm_MfhhM5K4GFoRHX0_6F68_iS_10g.OjaJ9FwZz3--D3AQfoeHkPmZeGQuVeU1osioHN0ejZUg.JPEG/20221207_132601.jpg
+                        " alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">요거프레소</span>
+                        <span class="restaurant-list__textBox__sub">카공하기 좋은 한신대 가성비 최고 카페</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 382-1" data-type="카페">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#카페</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMDA2MTBfMzQg%2FMDAxNTkxNzkzMjEwNDcw.UfKcaswFj-EBgWhBER8MiT1dQ0N5zqXj3k_Lvm7aensg.mQFj1y7gVjxZdvjBPoRWFa-ULJnfeTbKvKBuC-yjN0sg.JPEG.lse0770%2Foutput_1765151484.jpg
+                        " alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">커피마마</span>
+                        <span class="restaurant-list__textBox__sub">분위기 좋은 디저트 카페 맛집</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 382-1" data-type="중식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#중식</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://ldb-phinf.pstatic.net/20180712_83/15313762185526clJn_JPEG/CS5Ggzq98p6smby4ktZ7Ly9i.jpg
+                        " alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">청반점</span>
+                        <span class="restaurant-list__textBox__sub">가성비 좋은 한신대 중식맛집</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 379-5" data-type="한식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#한식</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjEyMTdfNzUg%2FMDAxNjcxMjc4MDMzMTQ4.lzaG3VwB990cnCnU-sNeCWiEvUSygGw1x3UcvXqNA2Ug.5VM9BYkgcZvPBd0RQeDPbv5p7Hsa1s4Ls9yVYleWlKQg.JPEG.kalth1004%2F20221115%25A3%25DF175957.jpg
+                        " alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">해뜨는집</span>
+                        <span class="restaurant-list__textBox__sub">한신대 앞 가정식 백반전문점</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 379-1" data-type="일식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#일식</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://pup-review-phinf.pstatic.net/MjAyMjA4MTNfMTI4/MDAxNjYwMzgxNjI5NzIw.XaiJnXL9QLAgb-ALobBgAdn7YyReFtcv9SgxBb2-5HMg.vD3fUqmW7UdMaSUqH_6UM7PWqa8AVoXK16D1jnBU1YQg.JPEG/upload_b82c84674329aa67de423afda26dd1e8.jpg
+                        " alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">화락</span>
+                        <span class="restaurant-list__textBox__sub">푸짐한 양과 신선한 맛을 느낄 수 있는 가성비 초밥 맛집</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 379-1" data-type="한식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#한식</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjExMjFfMTMx%2FMDAxNjY4OTU3NTQ3Mzk5.oPxR3Rxjay3G-hpTS8j-RmYJOeKy0Zk2Jtpm8niaSVgg.6KHknGElMg5MggvaI3BEU3fG9-OdXeBDXAtlClZfjQ4g.JPEG.ad-presenter%2FIMG_6529.jpg" alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">내가찜한닭</span>
+                        <span class="restaurant-list__textBox__sub">한신대 찜닭 맛집</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 379-1" data-type="기타">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#기타</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMDA1MTZfNDIg%2FMDAxNTg5NTk4MjQ2MzI4.IMC05kI4RdMqXOltra7Trbiha1xrq9oDIVUUwfAvKXUg.bsSNqy8ZiPY6Cwc5CZEOnAJwT2F9CHZZkbNivR5iHbAg.JPEG.12041117%2F20200515_220021.jpg
+                        " alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">정감포차</span>
+                        <span class="restaurant-list__textBox__sub">정감가는 가성비 포차</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 379-1" data-type="한식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#한식</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjEyMTlfMzkg%2FMDAxNjcxNDQ1OTQxODk0.qEIlJiMpPVscKtl8vuctncE6N-pz9F2-iLk_HFQCoQ8g.SqxRLuqAoKusKJW1bB16XfdoZh1b0JaVBcN57r2XECYg.JPEG.wldud1059%2FIMG_3248.JPG" alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">유신이네</span>
+                        <span class="restaurant-list__textBox__sub">오산 생삼겹 맛집</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 379-1" data-type="기타">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#기타</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://ldb-phinf.pstatic.net/20171104_16/15097958317384IxgX_JPEG/6fahQhNIKRb6XHMmuN15MFyK.jpg
+                        " alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">띠아모제과점</span>
+                        <span class="restaurant-list__textBox__sub">한신대 근처 맛집 베이커리</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 378-5" data-type="기타">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#기타</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjExMDZfMTQ1%2FMDAxNjY3NzA3NzIyNjU0.zHW0TjGdBgRERliYcOc2nbLSv3PcxUdR31X3YCXRQB0g.TUzXYSiIHHeJbV-QxZprqwrGk37EeeczxXRQujRuhkwg.JPEG.wlgp73599%2FIMG_2824.JPG
+                        " alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">동상이몽</span>
+                        <span class="restaurant-list__textBox__sub">안주 맛집 동상이몽</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 378-4" data-type="양식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#양식</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://ldb-phinf.pstatic.net/20230118_179/1674039788386Di7Tt_JPEG/E9E6F68D-F079-45BF-AF26-581964442C46.jpeg
+                        " alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">몽상</span>
+                        <span class="restaurant-list__textBox__sub">조용하고 분위기 있는 양식 맛집</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 378-1" data-type="카페">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#카페</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://pup-review-phinf.pstatic.net/MjAyMjEwMDdfMjc5/MDAxNjY1MTU0MDAyOTc4.MKngmTBLVTg4PaVtwR7nra2hVIxdvrWAbmjki9rVqhIg.g4TCfW-1jGP6Vgv5Af3vyvc536RvmtisvB1PoEVDGqMg.JPEG/20221006_132246.jpg" alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">리메인</span>
+                        <span class="restaurant-list__textBox__sub">깔끔한 인테리어와 함께 과제하기 좋은 카페</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 377-5" data-type="양식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#양식</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://ldb-phinf.pstatic.net/20210511_96/16207135657699pLtx_JPEG/4Mh4W5OuabyqUr0c5XLtpOfI.jpg
+                        " alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">전설의치킨</span>
+                        <span class="restaurant-list__textBox__sub">바삭한 튀김옷과 촉촉한 속살로 30년 전통 옛날 치킨집</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 376-2" data-type="카페">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#카페</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://pup-review-phinf.pstatic.net/MjAyMjEwMThfMTAx/MDAxNjY2MDg4NzQxODM1.UydAg9Csre_f_5pqWqWoAPOu_qHhLY7VL75PGhKyPqog.GTKoIwe2Gunf3FbuZRS9VX4HF3XRcxVmjM--TPvr9yYg.JPEG/20220929_124954.jpg
+                        " alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">블록</span>
+                        <span class="restaurant-list__textBox__sub">카페와 포차를 겸비한 분위기 맛집</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 375" data-type="기타">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#기타</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMDA4MDFfNDcg%2FMDAxNTk2Mjg2MDAzODM1.uKJ4YFTRmxPERmDr1M3-0lt35z6aUaZ5UV3n6iSHht4g.sfYrFhIXA4OCVARG2hPNcf0YIzoo2mp-Twnl9_6EjX8g.JPEG.milkkaka86%2F20200724_204907.jpg
+                        " alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">양산골주막</span>
+                        <span class="restaurant-list__textBox__sub">단체로 즐기기 좋은 안주 전통 맛집</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 362-2" data-type="카페">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#카페</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://pup-review-phinf.pstatic.net/MjAyMzAxMjBfNjgg/MDAxNjc0MTc3MjMxNzQw.UBAoDb_GEtbbkNqAdGQAaef4QQBHXVnd0TJsiuMZyMIg.7rq_2rsbsgDIidqDpHgLEaPMngpnAtCU6BFuiNRkaRYg.JPEG/20221228_115851.jpg
+                        " alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">홍스커피</span>
+                        <span class="restaurant-list__textBox__sub">넓고 편안한 공간과 가성비 좋은 카페</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 358-1" data-type="한식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#한식</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fpost.phinf.naver.net%2FMjAxNzEwMzBfMzMg%2FMDAxNTA5MzQ0Mjc2OTI3.W7rKVh4YevG9kpnSDVxDzD4MA8vHShDNt8Ue7ai6Ms8g.05XDPNE3M5o62YP46_7Cw1bZOsOOIgzxbvrgExQdjIwg.JPEG%2FIb0FiDrGB1rILthbEnEQ-LDROlxg.jpg
+                        " alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">듬뿍만두샤브</span>
+                        <span class="restaurant-list__textBox__sub">오산 만두맛집 샤브샤브 본점</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 294-26" data-type="한식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#한식</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxOTEyMDhfMjA2%2FMDAxNTc1Nzg2MDkwMzc0._9UK8mR-BSBgaSi8lqByHmfAgrVGVIanEC8sfKMOGtcg.JYLMvI3l-wlMZWvScTaggu14fjPSbpoTHkMaHAFjwMYg.JPEG.osan_si%2F%25C1%25A6%25C0%25B0%25B5%25A4%25B9%25E4.JPG
+                        " alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">한신식당</span>
+                        <span class="restaurant-list__textBox__sub">가성비 백반 맛집</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 382-1" data-type="중식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#중식</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjExMjdfMTIw%2FMDAxNjY5NTExODgzNTU0.6ZeO5lmRZhcu-pPoiZwYGXXw8x8pgf1dlFixszQ8k94g._SbCDTAfniXJn-XmXV-GIaLuT6Qh5o3_wtm1cPrPHzcg.JPEG.kalth1004%2F20220913%25A3%25DF123329.jpg
+                        " alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">짜장명가</span>
+                        <span class="restaurant-list__textBox__sub">중국 짜장맛집 짜장명가</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 437" data-type="기타">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#기타</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://myplace-phinf.pstatic.net/20220226_153/1645874292441uQ66r_JPEG/upload_b18c24acce1a436d262c6fbbd52953cc.jpeg" alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">한대포차</span>
+                        <span class="restaurant-list__textBox__sub">한신대 학생을 위한 퓨전요리 맛집</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 266" data-type="한식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#한식</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://ldb-phinf.pstatic.net/20201225_100/1608866158426NMYbf_JPEG/xdbalwEGoeQ6tRBKuyTL_M4z.jpg" alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">느림</span>
+                        <span class="restaurant-list__textBox__sub">건강한 맛을 느낄 수 있는 슬로우푸드의 정석 맛집</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 358-2" data-type="한식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#한식</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://pup-review-phinf.pstatic.net/MjAyMjExMDRfMTU5/MDAxNjY3NTIwNzAwNzQ5.dDVwHqM_rhuVsKPvamj0KUErk0Q2st0QW8YDnwMpSGEg.k9TLX8Lq5fkNUpAAY4C92s2kN9C6PId5FCbTB91gykAg.JPEG/20221025_134705.jpg
+                        " alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">고궁</span>
+                        <span class="restaurant-list__textBox__sub">아늑한 분위기의 삼계탕, 샤브샤브 전문 맛집</span>
+                    </div>
+                </div>
+                <div class="restaurant-list" address="양산동 259-1" data-type="한식">
+                    <div class="restaurant-list__tags">
+                        <span class="restaurant-list__tag">#한식</span>
+                        <span class="restaurant-list__tag">#정문</span>
+                    </div>
+                    <div class="restaurant-list__imgBox">
+                        <img src="https://pup-review-phinf.pstatic.net/MjAyMjEyMDFfMjQ3/MDAxNjY5ODg0MzkwNzUw.esyApJbphxy_pbXArNat1luzV0QKxVzB7BDi04CypHIg.BPQPKbouJZts7_kGXR5u-B2Xce8iykhxzCn46DonI9og.JPEG/20221127_135214.jpg" alt="" class="restaurant-list__img">
+                    </div>
+                    <div class="restaurant-list__textBox">
+                        <span class="restaurant-list__textBox__name">행복한콩박사</span>
+                        <span class="restaurant-list__textBox__sub">만두와 두부의 환상조화, 오산 두부전골 맛집</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 조회수 박스 -->
+            <div class="visitor">
+                <script type="text/javascript" src="https://freecountercode.com/service/l0p7qLlc4jpOjOgsn9e6"></script>
+            </div>
+        </main>
+        <!-- 맨 위로 버튼 추가-->
+        <a id="back-to-top"></a>
+    </div>
+
+    <script src="js/menuBtn.js"></script>
+    <script src="js/filter.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/mobileCheck.js"></script>
+    <script src="js/backToTop.js"></script>
+</body>
+</html>
