@@ -1,7 +1,7 @@
 # HSU_EATS
 한신대학교 인근 맛집 추천 웹
 
-## http://ldr0629.github.io/HSU_EATS/
+## [HSU EATS](http://ldr0629.github.io/HSU_EATS/)
 
 ## 주요 기능
 
